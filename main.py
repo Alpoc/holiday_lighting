@@ -25,9 +25,9 @@ COLOR_PACKS = [HALLOWEEN, FOURTH_OF_JULY, VALENTINES, EASTER]
 def random_effects():
 
     while True:
-        effects.off()
+        # effects.off()
         choice = random.randint(0, 6)
-        color_pack = choice.random(COLOR_PACKS)
+        color_pack = random.choice(COLOR_PACKS)
         color_pack = EASTER
         random.shuffle(color_pack)
         if choice == 0:
@@ -59,7 +59,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # parser.add_argument()
     args = parser.parse_args()
-    effects.color_cycle(0.005, UKRAINE, 100)
-    # random_effects()
+    random_effects()
     # effects.water_waves(EASTER, 5, 18, -1)
     print("ending program")

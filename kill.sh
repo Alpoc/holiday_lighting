@@ -1,3 +1,3 @@
 #!/bin/bash
-kill $(ps aux | grep '[p]ython run.py' | awk '{print $2}')
+kill -9 $(ps aux | grep '[p]ython main.py' | awk '{print $2}')
 sudo python off.py
