@@ -45,10 +45,10 @@ def random_effects():
             effects.color_cycle(1, color_pack, run_count=len(color_pack))
         elif choice == 4:
             print('left_right_shift')
-            effects.left_right_shift(color_pack, 5, 18, 60)
+            effects.left_right_shift(color_pack, 5, 18, 10)
         elif choice == 5:
             print('water_waves')
-            effects.water_waves(color_pack, 5, 18, 60)
+            effects.water_waves(color_pack, width=5, shift_amount=18, run_time=10)
         elif choice == 6:
             print('color_cycle_fade')
             effects.color_cycle_fade(0.005, color_pack, 20)

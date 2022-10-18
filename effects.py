@@ -200,14 +200,14 @@ def left_right_shift(color_list, width, shift_amount, run_time):
     color_col = create_filled_collection(color_list, width)
     shift_direction = 1
     shift_count = 0
-    sleep_time = 0.5
+    sleep_time = 0.005
     while keep_running(start_time, run_time):
         for i in range(NUM_PIXELS):
             pixels[i] = color_col[i]
         pixels.show()
         time.sleep(sleep_time)
         color_col.rotate(shift_direction)
-        shift_count += shift_dirrection
+        shift_count += shift_direction
         if abs(shift_count) >= shift_amount:
             shift_direction *= -1
 
