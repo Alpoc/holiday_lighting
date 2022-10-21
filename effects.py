@@ -93,6 +93,7 @@ def color_cycle_fade(sleep_time, colors, run_count):
                 pixels.fill(color)
                 pixels.show()
                 time.sleep(sleep_time)
+    pixels.brightness = BRIGHTNESS
 
 
 def timed_fill(sleep_time, colors, run_count=None):
