@@ -9,7 +9,7 @@ GREEN = (0, 255, 0)
 CYAN = (0, 255, 255)
 BLUE = (0, 0, 255)
 PURPLE = (160, 32, 240)
-ORANGE = (255, 69, 0)
+ORANGE = (255, 30, 0)
 OFF = (0, 0, 0)
 WHITE = (255, 255, 255)
 PINK = (255,20,147)
@@ -22,37 +22,37 @@ UKRAINE = [BLUE, YELLOW]
 EASTER = [PINK, GREEN, PURPLE, YELLOW]
 COLOR_PACKS = [HALLOWEEN, FOURTH_OF_JULY, VALENTINES, EASTER]
 
-def random_effects():
 
+def random_effects():
+    previous_choice = None
+    choice = random.randint(0, 6)
     while True:
-        # effects.off()
-        choice = random.randint(0, 6)
-        #color_pack = random.choice(COLOR_PACKS)
-        #random.shuffle(color_pack)
+        while choice == previous_choice:
+            choice = random.randint(0, 6)
         color_pack = HALLOWEEN
         if choice == 0:
             print("single_down")
-            effects.single_down(0, color_pack, run_count=1)
+            effects.single_down(0, color_pack, run_count=10)
         elif choice == 1:
             print("full wave random width")
             width = random.randint(3, 10)
-            effects.color_wave_full(0.05, color_pack, width, run_time=30)
+            effects.color_wave_full(0.5, color_pack, width, run_time=20)
         elif choice == 2:
             print("timed fill")
-            effects.timed_fill(0.005, color_pack, run_count=3)
+            effects.timed_fill(0.005, color_pack, run_count=10)
         elif choice == 3:
             print('color cycle')
-            effects.color_cycle(1, color_pack, run_count=len(color_pack))
+            effects.color_cycle(1, color_pack, run_count=len(color_pack)*10)
         elif choice == 4:
             print('left_right_shift')
-            effects.left_right_shift(color_pack, 5, 18, 10)
+            effects.left_right_shift(color_pack, 5, 18, 58)
         elif choice == 5:
             print('water_waves')
-            effects.water_waves(color_pack, width=5, shift_amount=18, run_time=10)
+            effects.water_waves(color_pack, width=5, shift_amount=18, run_time=58)
         elif choice == 6:
             print('color_cycle_fade')
             effects.color_cycle_fade(0.005, color_pack, 20)
-
+        previous_choice = choice
 
 if __name__ == '__main__':
     print("starting program")

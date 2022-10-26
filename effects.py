@@ -14,20 +14,9 @@ BRIGHTNESS = 1 # 0.0 - 1
 PIXEL_ORDER = neopixel.RGB
 # PIXEL_ORDER = neopixel.BRG
 
-pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, pixel_order=PIXEL_ORDER, brightness=BRIGHTNESS, auto_write=False)
-
-RED = (255, 0, 0)
-YELLOW = (255, 150, 0)
-GREEN = (0, 255, 0)
-CYAN = (0, 255, 255)
-BLUE = (0, 0, 255)
-PURPLE = (180, 0, 255)
-ORANGE = (255, 69, 0)
 OFF = (0, 0, 0)
-WHITE = (255, 255, 255)
 
-colors = [RED, YELLOW, GREEN, CYAN, BLUE, PURPLE, ORANGE, WHITE]
-
+pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, pixel_order=PIXEL_ORDER, brightness=BRIGHTNESS, auto_write=False)
 
 def off():
     pixels.fill(OFF)
@@ -201,7 +190,7 @@ def left_right_shift(color_list, width, shift_amount, run_time):
     color_col = create_filled_collection(color_list, width)
     shift_direction = 1
     shift_count = 0
-    sleep_time = 0.005
+    sleep_time = 0.05
     while keep_running(start_time, run_time):
         for i in range(NUM_PIXELS):
             pixels[i] = color_col[i]
