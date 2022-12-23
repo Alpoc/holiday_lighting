@@ -5,11 +5,12 @@ from rainbowio import colorwheel
 import random
 import time
 import numpy as np
+import math
 
 
 PIXEL_PIN = board.D21 # gpio number, D21 is pin 40
 global NUM_PIXELS
-NUM_PIXELS = 150
+NUM_PIXELS = 200
 BRIGHTNESS = 1 # 0.0 - 1
 PIXEL_ORDER = neopixel.RGB
 # PIXEL_ORDER = neopixel.BRG
@@ -235,3 +236,110 @@ def water_waves(color_list, width, shift_amount, run_time):
             shift_direction *= -1
             shift_count = 0
             velocity_sleep = initial_sleep
+        choice = random.randint(0, 6)
+
+
+def single_down_fill(color_list):
+    """
+    send a single light down the strand filling the end when it hits a light or the end.
+
+    args:
+        color_list: list of colors to use
+    """
+    import itertools
+    fill_stop = NUM_PIXELS - 1
+    color_iter = itertools.cycle(iter(color_list))
+    while fill_stop > 0:
+        color = next(color_iter)
+        for x in range(NUM_PIXELS):
+            pixels[x] = color
+            if x > 0:
+                pixels[x - 1] = OFF
+            if x == fill_stop:
+                fill_stop -= 1
+                break
+            pixels.show()
+
+class Pixel():
+    def __init__(self, color):
+        self.location = random.randint(0, NUM_PIXELS - 1)
+        self.color = color
+        self.brightness_diviros = 1
+        self.set_pixel()
+
+    def lower_brightness(self):
+        if math.isinf(self.brightness_divisor):
+            return
+        if self.brightness_divisor == 9:
+            x = math.inf
+        self.color = tuple(x/self.brightness_divisor for x in self.color)
+        self.brightness_divisor += 1
+        self.set_pixel()
+
+    def set_pixel(self):
+        print(self.location)
+        print(self.color)
+        print()
+        pixels[self.location] = self.color
+
+
+def fireworks(colors, run_time=60):
+    """
+    Burst outwards from random location(s)
+
+    args:
+        colors: list of colors
+        run_time: duration of time to run in seconds
+    """
+    #pixels.fill(colors[-1])
+    #pixels[120] = colors[0]
+    #for x in range(1, 10):
+    #    color_choice = colors[0]
+    #    if x == 9:
+    #        x = math.inf
+    #    else:
+    #        x = x**1.1
+    #    print(x)
+    #    color = tuple([y/x for y in color_choice])
+    #    print(str(color))
+    #    pixels.fill(color)
+    #    pixels.show()
+    #    time.sleep(0.2)
+    #exit()
+
+    while keep_running(time.time(), run_time):
+        origins = [Pixel(random.choice(colors))] * random.randint(1, 1)
+        explosions = origins
+        width = 5
+        for origin in origins:
+            origin.location = 120
+        pixels.show()
+        current_width = 1    
+        while current_width < width:
+            for pixel in origins:
+                pixel_right_local = pixel.location - current_width
+                pixel_left_local = pixel.location + current_width
+                print('rpl' + str(pixel_right_local))
+                print('lpl' + str(pixel_left_local))
+                if pixel_right_local > 0:
+                    left_pixel = Pixel(color=pixel.color)
+                    left_pixel.location = pixel_right_local
+                    left_pixel.set_pixel()
+                    explosions.append(left_pixel)
+                if pixel_left_local < NUM_PIXELS:
+                    right_pixel = Pixel(color=pixel.color)
+                    right_pixel.location = pixel_left_local
+                    explosions.append(right_pixel)
+                    right_pixel.set_pixel()
+                current_width += 1
+            pixels.show()
+            for pixel in explisions:
+                pixel.lower_brightness()
+       while len(explosions) > 0:
+           for pixel in explosions:
+               if math.isinf(pixel.brightness):
+                   explosions.remove(pixel)
+               else:
+                   pixel.lower_brightness()
+               pixels.show()
+                    

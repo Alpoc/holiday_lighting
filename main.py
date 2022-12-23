@@ -13,6 +13,7 @@ ORANGE = (255, 30, 0)
 OFF = (0, 0, 0)
 WHITE = (255, 255, 255)
 PINK = (255,20,147)
+GOLD = (255, 90, 0) 
 
 # COLOR PACKS
 HALLOWEEN = [ORANGE, OFF]
@@ -21,15 +22,19 @@ VALENTINES = [RED, OFF, WHITE]
 UKRAINE = [BLUE, YELLOW]
 EASTER = [PINK, GREEN, PURPLE, YELLOW]
 COLOR_PACKS = [HALLOWEEN, FOURTH_OF_JULY, VALENTINES, EASTER]
+CHRISTMAS = [RED, GREEN]
+WHITE_GOLD = [WHITE, GOLD]
 
 
 def random_effects():
     previous_choice = None
-    choice = random.randint(0, 6)
+    choice = random.randint(0, 7)
     while True:
         while choice == previous_choice:
-            choice = random.randint(0, 6)
-        color_pack = HALLOWEEN
+            choice = random.randint(0, 7)
+        #color_pack = random.choice([CHRISTMAS, WHITE_GOLD])
+        color_pack = CHRISTMAS
+        choice = 8
         if choice == 0:
             print("single_down")
             effects.single_down(0, color_pack, run_count=10)
@@ -52,6 +57,12 @@ def random_effects():
         elif choice == 6:
             print('color_cycle_fade')
             effects.color_cycle_fade(0.005, color_pack, 20)
+        elif choice == 7:
+            print('single_down_fill')
+            effects.single_down_fill(color_pack)
+        elif choice == 8:
+            print('fireworks')
+            effects.fireworks(color_pack, run_time=60)
         previous_choice = choice
 
 if __name__ == '__main__':
