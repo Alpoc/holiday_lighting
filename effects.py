@@ -314,7 +314,7 @@ def fireworks(colors, run_time=60):
         for origin in origins:
             origin.location = 120
         pixels.show()
-        current_width = 1    
+        current_width = 1
         while current_width < width:
             for pixel in origins:
                 pixel_right_local = pixel.location - current_width
@@ -335,11 +335,10 @@ def fireworks(colors, run_time=60):
             pixels.show()
             for pixel in explisions:
                 pixel.lower_brightness()
-       while len(explosions) > 0:
-           for pixel in explosions:
-               if math.isinf(pixel.brightness):
-                   explosions.remove(pixel)
-               else:
-                   pixel.lower_brightness()
-               pixels.show()
-                    
+        while len(explosions) > 0:
+            for pixel in explosions:
+                if math.isinf(pixel.brightness):
+                    explosions.remove(pixel)
+                else:
+                    pixel.lower_brightness()
+                pixels.show()
