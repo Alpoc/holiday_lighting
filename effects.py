@@ -6,7 +6,7 @@ import random
 import time
 import numpy as np
 import math
-
+import datetime
 
 PIXEL_PIN = board.D21 # gpio number, D21 is pin 40
 global NUM_PIXELS
@@ -264,7 +264,7 @@ class Pixel():
     def __init__(self, color):
         self.location = random.randint(0, NUM_PIXELS - 1)
         self.color = color
-        self.brightness_diviros = 1
+        self.brightness_divisor = 1
         self.set_pixel()
 
     def lower_brightness(self):
@@ -319,8 +319,6 @@ def fireworks(colors, run_time=60):
             for pixel in origins:
                 pixel_right_local = pixel.location - current_width
                 pixel_left_local = pixel.location + current_width
-                print('rpl' + str(pixel_right_local))
-                print('lpl' + str(pixel_left_local))
                 if pixel_right_local > 0:
                     left_pixel = Pixel(color=pixel.color)
                     left_pixel.location = pixel_right_local
@@ -333,12 +331,29 @@ def fireworks(colors, run_time=60):
                     right_pixel.set_pixel()
                 current_width += 1
             pixels.show()
-            for pixel in explisions:
+            for pixel in explosions:
                 pixel.lower_brightness()
+                pixel.set_pixel()
+
+            pixels.show()
         while len(explosions) > 0:
             for pixel in explosions:
-                if math.isinf(pixel.brightness):
+                if math.isinf(pixel.brightness_divisor):
                     explosions.remove(pixel)
                 else:
                     pixel.lower_brightness()
                 pixels.show()
+
+
+def no_effects():
+    """ Do not run effects at night only soft glow """
+    bedtime = 20
+    morning = 9
+    print(datetime.datetime.today().hour)
+
+    while bedtime < datetime.datetime.today().hour or datetime.datetime.today().hour < morning:
+        pixels.brightness = 0.05
+        pixels.fill((255, 150, 10))
+        pixels.show()
+        time.sleep(60 * 10)
+    pixels.brightness = BRIGHTNESS
