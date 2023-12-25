@@ -26,7 +26,7 @@ EASTER = [PINK, GREEN, PURPLE, YELLOW]
 COLOR_PACKS = [HALLOWEEN, FOURTH_OF_JULY, VALENTINES, EASTER]
 CHRISTMAS = [RED, GREEN]
 WHITE_GOLD = [WHITE, GOLD]
-THANKSGIVINGS = [RED, YELLOW, DEEP_ORANGE, GREEN]
+THANKSGIVINGS = [RED, YELLOW, GREEN, DEEP_ORANGE]
 SAINT_PATRICKS = [GREEN, WHITE]
 RAINBOW = [RED, ORANGE, YELLOW, GREEN, BLUE, PINK, PURPLE]
 
@@ -88,6 +88,7 @@ def random_effects():
             print('single_down_fill')
             effects.single_down_fill(color_pack)
         elif choice == 88:
+            # fireworks currently does not work
             print('fireworks')
             effects.fireworks(color_pack, run_time=60)
         elif choice == 9:

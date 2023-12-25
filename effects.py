@@ -346,6 +346,7 @@ def fireworks(colors, run_time=60):
 
 
 def no_effects():
+<<<<<<< HEAD
     """
     Do not run effects while sleeping, only soft glow for night light.
     Turn off lights during the daytime
@@ -369,3 +370,4 @@ def no_effects():
         current_hour = datetime.datetime.today().hour
     print('turning lights on')
     pixels.brightness = BRIGHTNESS
+
