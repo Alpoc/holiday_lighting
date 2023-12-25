@@ -6,7 +6,7 @@ import random
 import time
 import numpy as np
 import math
-
+import datetime
 
 PIXEL_PIN = board.D21 # gpio number, D21 is pin 40
 global NUM_PIXELS
@@ -264,7 +264,7 @@ class Pixel():
     def __init__(self, color):
         self.location = random.randint(0, NUM_PIXELS - 1)
         self.color = color
-        self.brightness_diviros = 1
+        self.brightness_divisor = 1
         self.set_pixel()
 
     def lower_brightness(self):
@@ -319,8 +319,6 @@ def fireworks(colors, run_time=60):
             for pixel in origins:
                 pixel_right_local = pixel.location - current_width
                 pixel_left_local = pixel.location + current_width
-                print('rpl' + str(pixel_right_local))
-                print('lpl' + str(pixel_left_local))
                 if pixel_right_local > 0:
                     left_pixel = Pixel(color=pixel.color)
                     left_pixel.location = pixel_right_local
@@ -333,12 +331,41 @@ def fireworks(colors, run_time=60):
                     right_pixel.set_pixel()
                 current_width += 1
             pixels.show()
-            for pixel in explisions:
+            for pixel in explosions:
                 pixel.lower_brightness()
+                pixel.set_pixel()
+
+            pixels.show()
         while len(explosions) > 0:
             for pixel in explosions:
-                if math.isinf(pixel.brightness):
+                if math.isinf(pixel.brightness_divisor):
                     explosions.remove(pixel)
                 else:
                     pixel.lower_brightness()
                 pixels.show()
+
+
+def no_effects():
+    """
+    Do not run effects while sleeping, only soft glow for night light.
+    Turn off lights during the daytime
+    """
+    off = 9
+    start = 16
+    end = 20
+
+    current_hour = datetime.datetime.today().hour
+    while end < current_hour or current_hour < start:
+        print(f'current time: {current_hour}')
+        if off < current_hour < start:
+            print('turning lights off')
+            pixels.brightness = 0
+        else:
+            pixels.brightness = 0.05
+            print('nightlight mode')
+        pixels.fill((255, 150, 10))
+        pixels.show()
+        time.sleep(60 * 10)
+        current_hour = datetime.datetime.today().hour
+    print('turning lights on')
+    pixels.brightness = BRIGHTNESS

@@ -1,6 +1,7 @@
 import argparse
 import random
 import effects
+from datetime import datetime
 
 # A good source for colors https://americanpartylights.com/rgb/
 RED = (255, 0, 0)
@@ -14,6 +15,7 @@ OFF = (0, 0, 0)
 WHITE = (255, 255, 255)
 PINK = (255, 20, 147)
 GOLD = (255, 90, 0)
+DEEP_ORANGE = (70, 10, 0)
 
 # COLOR PACKS
 HALLOWEEN = [ORANGE, OFF]
@@ -24,17 +26,42 @@ EASTER = [PINK, GREEN, PURPLE, YELLOW]
 COLOR_PACKS = [HALLOWEEN, FOURTH_OF_JULY, VALENTINES, EASTER]
 CHRISTMAS = [RED, GREEN]
 WHITE_GOLD = [WHITE, GOLD]
+THANKSGIVINGS = [RED, YELLOW, DEEP_ORANGE, GREEN]
+SAINT_PATRICKS = [GREEN, WHITE]
+RAINBOW = [RED, ORANGE, YELLOW, GREEN, BLUE, PINK, PURPLE]
+
+
+def get_holiday():
+    cur_month = datetime.today().month
+    if cur_month == 1:
+        return WHITE_GOLD
+    if cur_month == 2:
+        return VALENTINES
+    elif cur_month == 5:
+        return EASTER
+    elif cur_month == 3:
+        return SAINT_PATRICKS
+    elif cur_month == 7:
+        return FOURTH_OF_JULY
+    elif cur_month == 10:
+        return HALLOWEEN
+    elif cur_month == 11:
+        return THANKSGIVINGS
+    elif cur_month == 12:
+        return CHRISTMAS
+    else:
+        return random.choice([UKRAINE, RAINBOW])
 
 
 def random_effects():
     previous_choice = None
-    choice = random.randint(0, 7)
+    choice = random.randint(0, 9)
     while True:
         while choice == previous_choice:
-            choice = random.randint(0, 7)
+            choice = random.randint(0, 9)
         #color_pack = random.choice([CHRISTMAS, WHITE_GOLD])
-        color_pack = CHRISTMAS
-        choice = 8
+        color_pack = get_holiday()
+        #choice = 8
         if choice == 0:
             print("single_down")
             effects.single_down(0, color_pack, run_count=10)
@@ -60,9 +87,13 @@ def random_effects():
         elif choice == 7:
             print('single_down_fill')
             effects.single_down_fill(color_pack)
-        elif choice == 8:
+        elif choice == 88:
             print('fireworks')
             effects.fireworks(color_pack, run_time=60)
+        elif choice == 9:
+            print('sleeping')
+            effects.no_effects()
+
         previous_choice = choice
 
 if __name__ == '__main__':
