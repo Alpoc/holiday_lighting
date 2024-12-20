@@ -33,22 +33,23 @@ RAINBOW = [RED, ORANGE, YELLOW, GREEN, BLUE, PINK, PURPLE]
 
 def get_holiday():
     cur_month = datetime.today().month
-    if cur_month == 1:
-        return WHITE_GOLD
+    cur_day = datetime.today().day
+    if cur_month == 1 or (cur_month == 12 and cur_day > 26):
+        return [WHITE_GOLD]
     if cur_month == 2:
-        return VALENTINES
+        return [VALENTINES]
     elif cur_month == 5:
-        return EASTER
+        return [EASTER]
     elif cur_month == 3:
-        return SAINT_PATRICKS
+        return [SAINT_PATRICKS]
     elif cur_month == 7:
-        return FOURTH_OF_JULY
+        return [FOURTH_OF_JULY]
     elif cur_month == 10:
-        return HALLOWEEN
+        return [HALLOWEEN]
     elif cur_month == 11:
-        return THANKSGIVINGS
+        return [THANKSGIVINGS]
     elif cur_month == 12:
-        return CHRISTMAS
+        return [CHRISTMAS, WHITE_GOLD, THANKSGIVINGS]
     else:
         return random.choice([UKRAINE, RAINBOW])
 
@@ -59,8 +60,9 @@ def random_effects():
     while True:
         while choice == previous_choice:
             choice = random.randint(0, 9)
-        #color_pack = random.choice([CHRISTMAS, WHITE_GOLD])
+        
         color_pack = get_holiday()
+        color_pack = random.choice(color_pack)
         #choice = 8
         if choice == 0:
             print("single_down")
@@ -86,11 +88,15 @@ def random_effects():
             effects.color_cycle_fade(0.005, color_pack, 20)
         elif choice == 7:
             print('single_down_fill')
-            effects.single_down_fill(color_pack)
+            effects.single_down_fast(color_pack)
         elif choice == 88:
             # fireworks currently does not work
             print('fireworks')
             effects.fireworks(color_pack, run_time=60)
+        elif choice == 98:
+            print('single_fill_fast')
+            effects.single_fill_fast(color_pack)
+            #effects.single_down_fill(color_pack)
         elif choice == 9:
             print('sleeping')
             effects.no_effects()

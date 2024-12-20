@@ -7,16 +7,21 @@ import time
 import numpy as np
 import math
 import datetime
+import itertools
+from threading import Lock
+import concurrent.futures
+
 
 PIXEL_PIN = board.D21 # gpio number, D21 is pin 40
 global NUM_PIXELS
-NUM_PIXELS = 200
-BRIGHTNESS = 1 # 0.0 - 1
+NUM_PIXELS = 300
+BRIGHTNESS = .66 # 0.0 - 1
 PIXEL_ORDER = neopixel.RGB
 # PIXEL_ORDER = neopixel.BRG
 
-OFF = (0, 0, 0)
 
+OFF = (0, 0, 0)
+global pixels
 pixels = neopixel.NeoPixel(PIXEL_PIN, NUM_PIXELS, pixel_order=PIXEL_ORDER, brightness=BRIGHTNESS, auto_write=False)
 
 def off():
@@ -246,6 +251,7 @@ def single_down_fill(color_list):
     args:
         color_list: list of colors to use
     """
+    start_time = time.time()
     import itertools
     fill_stop = NUM_PIXELS - 1
     color_iter = itertools.cycle(iter(color_list))
@@ -259,6 +265,38 @@ def single_down_fill(color_list):
                 fill_stop -= 1
                 break
             pixels.show()
+    print(f"total run time: {time.time() - start_time}")
+    exit()
+
+
+def single_fill_fast(color_list):
+    """
+    send a single light down the strand filling the end when it hits a light or the end.
+
+    args:
+        color_list: list of colors to use
+    """
+
+    def thread_fill(color, ending_pixel):
+        time.sleep(random.uniform(1, 2))
+        finished = False
+        for x in range(ending_pixel):
+            pixels[x] = color
+            if x > 0 and x != ending_pixel or pixels[x - 1] != list(color):
+                pixels[x - 1] = OFF
+
+            pixels.show()
+
+    start_time = time.time()
+    pixels.fill(OFF)
+    color_iter = itertools.cycle(iter(color_list))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        for i in range(NUM_PIXELS):
+            end_pixel = NUM_PIXELS - i
+            color = next(color_iter)
+            executor.submit(thread_fill, color, end_pixel)
+    print(f"total run time: {time.time() - start_time}")
+    exit()
 
 class Pixel():
     def __init__(self, color):
@@ -346,7 +384,6 @@ def fireworks(colors, run_time=60):
 
 
 def no_effects():
-<<<<<<< HEAD
     """
     Do not run effects while sleeping, only soft glow for night light.
     Turn off lights during the daytime
