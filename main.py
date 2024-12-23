@@ -88,7 +88,7 @@ def random_effects():
             effects.color_cycle_fade(0.005, color_pack, 20)
         elif choice == 7:
             print('single_down_fill')
-            effects.single_down_fast(color_pack)
+            effects.single_fill_fast(color_pack)
         elif choice == 88:
             # fireworks currently does not work
             print('fireworks')
